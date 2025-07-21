@@ -30,81 +30,193 @@
   <script>
     const materias = {
       "Primer Año": {
-        "1° Cuatrimestre": [["Introducción al Turismo", ["Introducción al Turismo 2", "Programación de Circuitos"]],
-        ["Geografía turística Mundial", ["Geografía Turística Mercosur"]],
-        ["Destinos y Patrimonio Turístico Mundial", ["Destinos y Patrimonio Turístico de Mercosur"]],
-        ["Inglés 1", ["Inglés 2"]], ["Portugués 1", ["Portugués 2"]],
-        ["Regulación Jurídica de la Actividad Turística", ["Obligaciones y contratos turísticos"]],
-        ["Informática 1", ["Informática Google Eart Pro – Sistema Gis – Sistema Integrados Guiemaps"]]],
-        "2° Cuatrimestre": [["Introducción al Turismo 2", ["Organización y gestión de destinos turísticos", "Elaboración y evaluación de proyectos turísticos ambientales"]],
-        ["Programación de Circuitos", []],
-        ["Geografía Turística Mercosur", ["Geografía turística Argentina"]],
-        ["Destinos y Patrimonio Turístico de Mercosur", ["Destinos y Patrimonio Turístico de Argentina"]],
-        ["Inglés 2", ["Inglés 3"]], ["Portugués 2", ["Portugués 3"]],
-        ["Trabajo Social Comunitario 1", ["Trabajo Social Comunitario 2"]]]
+        "1° Cuatrimestre": [
+          "Introducción al Turismo", "Geografía turística Mundial", "Destinos y Patrimonio Turístico Mundial",
+          "Inglés 1", "Portugués 1", "Regulación Jurídica de la Actividad Turística", "Informática 1"
+        ],
+        "2° Cuatrimestre": [
+          "Introducción al Turismo 2", "Programación de Circuitos", "Geografía Turística Mercosur", 
+          "Destinos y Patrimonio Turístico de Mercosur", "Inglés 2", "Portugués 2", "Trabajo Social Comunitario 1"
+        ]
+      },
+       "Segundo Año": {
+        "3° Cuatrimestre": [
+          "Geografía turística Argentina", "Destinos y Patrimonio Turístico de Argentina", "Organización y gestión de Empresas de Transportes",
+          "Inglés 3", "Portugués 3", "Administración y gestión de recursos humanos", "Trabajo Social Comunitario 2"
+        ],
+        "4° Cuatrimestre": [
+          "Organización y Gestión de empresas de Alojamiento", "Geografía turística AMBA", "Destinos y Patrimonio Turístico de AMBA",
+          "Planificación Turística", "Metodología de la Investigación", "Turismo Sustentable"
+        ]
+      },
+       "Tercer Año": {
+        "5° Cuatrimestre": [
+          "Geografía turística CABA", "Destinos y Patrimonio Turístico de CABA", "Organización y gestión de Empresas de Viajes y Turismo",
+          "Gestión pública del Turismo", "Taller de Investigación e Innovación turística", "Inglés 4", "Portugués 4"
+        ],
+        "6° Cuatrimestre": [
+          "Estadística Turística", "Obligaciones y contratos turísticos", "Informática Google Eart Pro – Sistema Gis – Sistema Integrados Guiemaps",
+          "Organización y gestión de destinos turísticos", "Comunicación e innovación tecnológica", "Trabajo Social Comunitario 3"
+        ]
+      },
+       "Cuarto Año": {
+        "7° Cuatrimestre": [
+          "Gestión de la Calidad en Turismo", "Marketing turístico", "Elaboración y evaluación de proyectos turísticos ambientales"
+        ],
+        "8° Cuatrimestre": [
+          "Circuitos e Impacto Ambiental", "Diseño de productos potenciales e innovadores", "Trabajo Social Comunitario 4", "Proyecto Final o Tesina"
+        ]
+      },
+       "Optativa": {
+         "Turismo Social", "Turismo Rural", "Turismo Accesible", "Turismo Alternativo", "Turismo Educativo", "Turismo Cultural", 
+         "Congresos y Cruceros", "Corporativo e Incentivos", "Taller Técnicas de Interpretación del Patrimonio"
       }
     };
-    const correlativas = {};
+    for (const año in estructura) {
+  const esTecnicatura = ["Primer Año", "Segundo Año", "Tercer Año"].includes(año);
+  for (const cuatri in estructura[año]) {
+    estructura[año][cuatri].forEach(m => {
+      if (esTecnicatura) materiasTecnicatura.add(m);
+      materiasLicenciatura.add(m);
+    });
+  }
+}
+const dependencias = {
+  "Introducción al Turismo 2": ["Introducción al Turismo 1"],
+  "Programación de Circuitos": ["Introducción al Turismo 1"],
+  "Geografía Turística Mercosur": ["Geografía turística Mundial"],
+  "Destinos y Patrimonio Turístico de Mercosur": ["Destinos y Patrimonio Turístico Mundial"],
+  "Inglés 2": ["Inglés 1"],
+  "Portugués 2": ["Portugués 3"],
+  "Geografía turística Argentina": ["Geografía turística Mercosur"],
+  "Destinos y Patrimonio Turístico de Argentina": ["Destinos y Patrimonio Turístico de Mercosur"],
+  "Inglés 3": ["Inglés 2"],
+  "Portugués 3": ["Inglés 2"],
+  "Trabajo Social Comunitario 2": ["Trabajo Social Comunitario 1"],
+  "Geografía turística AMBA": ["Geografía turística Argentina"],
+  "Destinos y Patrimonio Turístico de AMBA": ["Destinos y Patrimonio Turístico de Argentina"],
+  "Geografía turística CABA": ["Geografía turística AMBA"],
+  "Destinos y Patrimonio Turístico de CABA": ["Destinos y Patrimonio Turístico de AMBA"],
+  "Gestión pública del Turismo": ["Planificación Turística"],
+  "Taller de Investigación e Innovación turística": ["Metodología de la Investigación"],
+  "Inglés 4": ["Inglés 3"],
+  "Portugués 4": ["Portugués 3"],
+  "Estadística Turística": ["Metodología de la Investigación"],
+  "Obligaciones y contratos turísticos": ["Regulación Jurídica de la Actividad Turística"],
+  "Informática Google Eart Pro – Sistema Gis – Sistema Integrados Guiemaps": ["Informática 1"],
+  "Organización y gestión de destinos turísticos": ["Introducción al Turismo 2", "Planificación Turística"], 
+  "Trabajo Social Comunitario 3": ["Trabajo Social Comunitario 2"], 
+  "Gestión de la Calidad en Turismo": ["Organización y gestión de Empresas de Transportes", "Administración y gestión de recursos humanos", "Organización y Gestión de empresas de Alojamiento", "Gestión pública del Turismo"],
+  "Marketing turístico": ["Organización y gestión de Empresas de Transportes", "Organización y Gestión de empresas de Alojamiento", "Gestión pública del Turismo"], 
+  "Elaboración y evaluación de proyectos turísticos ambientales": ["Introducción al Turismo 2", "Taller de Investigación e Innovación turística", "Comunicación e innovación tecnológica"], 
+  "Circuitos e Impacto Ambiental": ["Elaboración y evaluación de proyectos turísticos ambientales"], 
+  "Diseño de productos potenciales e innovadores": ["Planificación Turística", "Comunicación e innovación tecnológica", "Gestión de la Calidad en Turismo"], 
+  "Trabajo Social Comunitario 4": ["Trabajo Social Comunitario 3"],
+  "Proyecto Final o Tesina": ["Metodología de la Investigación", "Inglés 4"]
+  
     const estado = JSON.parse(localStorage.getItem("estadoTurismo") || "{}");
-    for (const año in materias) {
-      for (const cuatri in materias[año]) {
-        materias[año][cuatri].forEach(([nombre, desbloquea]) => {
-          if (!correlativas[nombre]) correlativas[nombre] = [];
-          desbloquea.forEach(dest => {
-            if (!correlativas[dest]) correlativas[dest] = [];
-            correlativas[dest].push(nombre);
-          });
-        });
-      }
-    }
-    function guardar() { localStorage.setItem("estadoTurismo", JSON.stringify(estado)); }
-    function reiniciar() {
-      if (confirm("¿Está seguro de borrar todo el proceso marcado?")) {
-        localStorage.removeItem("estadoTurismo"); location.reload();
-      }
-    }
-    function crearMalla() {
-      const contenedor = document.getElementById("contenedor");
-      contenedor.innerHTML = "";
-      let total = 0, tecnica = 0, licencia = 0;
-      for (const año in materias) {
-        const divAño = document.createElement("div");
-        divAño.className = "año";
-        divAño.innerHTML = `<h2>${año}</h2>`;
-        for (const cuatri in materias[año]) {
-          const divCuatri = document.createElement("div");
-          divCuatri.className = "cuatri";
-          divCuatri.innerHTML = `<h3>${cuatri}</h3>`;
-          materias[año][cuatri].forEach(([nombre]) => {
-            const divMateria = document.createElement("div");
-            divMateria.className = "materia";
-            divMateria.textContent = nombre;
-            const requisitos = correlativas[nombre] || [];
-            const desbloqueada = requisitos.every(req => estado[req]);
-            if (!desbloqueada) divMateria.classList.add("bloqueada");
-            if (estado[nombre]) {
-              divMateria.classList.remove("bloqueada");
-              divMateria.classList.add("aprobada");
-              total++;
-              if (["Primer Año", "Segundo Año", "Tercer Año"].includes(año)) tecnica++;
-              else licencia++;
-            }
-            divMateria.onclick = () => {
-              if (divMateria.classList.contains("bloqueada")) return;
-              estado[nombre] = !estado[nombre];
-              guardar();
-              crearMalla();
-            };
-            divCuatri.appendChild(divMateria);
-          });
-          divAño.appendChild(divCuatri);
+
+    function guardarEstado() {
+  localStorage.setItem("estadoTurismo", JSON.stringify(estados));
+}
+
+function crearMalla() {
+  const contenedor = document.getElementById("malla-contenedor");
+  contenedor.innerHTML = "";
+
+  for (const año in estructura) {
+    const divAño = document.createElement("div");
+    divAño.className = "año";
+    divAño.innerHTML = `<h2>${año}</h2><div class="cuatris"></div>`;
+    const cuatrisDiv = divAño.querySelector(".cuatris");
+
+    for (const cuatri in estructura[año]) {
+      const divCuatri = document.createElement("div");
+      divCuatri.className = "cuatri";
+      divCuatri.innerHTML = `<h3>${cuatri}</h3>`;
+      estructura[año][cuatri].forEach(materia => {
+        const divMateria = document.createElement("div");
+        divMateria.className = "materia";
+        divMateria.id = materia;
+        divMateria.textContent = materia;
+        if (estados[materia] === "completada") {
+  divMateria.classList.add("completada");
+} else if (estados[materia] === "pendiente") {
+  divMateria.classList.add("pendiente");
+}
         }
-        contenedor.appendChild(divAño);
-      }
-      document.getElementById("contador").textContent =
-        `Materias aprobadas: ${total} | Tecnicatura: ${tecnica} | Licenciatura: ${licencia}`;
+        divCuatri.appendChild(divMateria);
+      });
+      cuatrisDiv.appendChild(divCuatri);
     }
-    crearMalla();
-  </script>
+
+    contenedor.appendChild(divAño);
+  }
+
+  actualizarBloqueadas();
+  actualizarContadores();
+}
+
+function actualizarBloqueadas() {
+  for (const materia in dependencias) {
+    const bloqueada = !dependencias[materia].every(m => estados[m] === "completada");
+    const el = document.getElementById(materia);
+    if (el) {
+      if (bloqueada && !estados[materia]) el.classList.add("bloqueada");
+      else el.classList.remove("bloqueada");
+    }
+  }
+}
+function actualizarContadores() {
+  const total = Object.keys(estados).length;
+  const aprobadas = Object.values(estados).filter(v => v).length;
+
+  const tecniTotal = [...materiasTecnicatura].length;
+  const tecniAprobadas = [...materiasTecnicatura].filter(m => estados[m]).length;
+
+  const licTotal = [...materiasLicenciatura].length;
+  const licAprobadas = [...materiasLicenciatura].filter(m => estados[m]).length;
+
+  document.getElementById("contador-materias").innerHTML = `
+    📚 Materias Totales: <strong>${total}</strong> |
+    ✅ Aprobadas: <strong>${aprobadas}</strong><br>
+    🎓 Tecnicatura: <strong>${tecniAprobadas}/${tecniTotal}</strong> |
+    🎓 Licenciatura: <strong>${licAprobadas}/${licTotal}</strong>
+  `;
+
+  const barra = document.getElementById("barra-progreso");
+  const texto = document.getElementById("texto-progreso");
+  barra.style.width = `${porcentaje}%`;
+  texto.textContent = `${porcentaje}% completado`;
+}
+
+document.addEventListener("click", e => {
+  if (!e.target.classList.contains("materia")) return;
+  if (e.target.classList.contains("bloqueada")) return;
+
+  const id = e.target.id;
+  const estadoActual = estados[id];
+
+  if (estadoActual === "pendiente") {
+    estados[id] = "completada";
+  } else if (estadoActual === "completada") {
+    delete estados[id]; // lo resetea
+  } else {
+    estados[id] = "pendiente";
+  }
+
+  guardarEstado();
+  crearMalla();
+});
+function reiniciarMalla() {
+  if (confirm("¿Querés reiniciar toda la malla? Esto borrará tu progreso 🥺")) {
+    localStorage.removeItem("estadoMallaVan");
+    location.reload();
+  }
+}
+
+window.onload = crearMalla;
+</script>
 </body>
 </html>
+
