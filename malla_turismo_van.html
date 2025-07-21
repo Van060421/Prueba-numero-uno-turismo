@@ -28,152 +28,172 @@
   <button onclick="reiniciar()">Reiniciar Malla</button>
   <div class="contenedor" id="contenedor"></div>
   <script>
-    const materias = {
-      "Primer Año": {
-        "1° Cuatrimestre": [
-          "Introducción al Turismo", "Geografía turística Mundial", "Destinos y Patrimonio Turístico Mundial",
-          "Inglés 1", "Portugués 1", "Regulación Jurídica de la Actividad Turística", "Informática 1"
-        ],
-        "2° Cuatrimestre": [
-          "Introducción al Turismo 2", "Programación de Circuitos", "Geografía Turística Mercosur", 
-          "Destinos y Patrimonio Turístico de Mercosur", "Inglés 2", "Portugués 2", "Trabajo Social Comunitario 1"
-        ]
-      },
-       "Segundo Año": {
-        "3° Cuatrimestre": [
-          "Geografía turística Argentina", "Destinos y Patrimonio Turístico de Argentina", "Organización y gestión de Empresas de Transportes",
-          "Inglés 3", "Portugués 3", "Administración y gestión de recursos humanos", "Trabajo Social Comunitario 2"
-        ],
-        "4° Cuatrimestre": [
-          "Organización y Gestión de empresas de Alojamiento", "Geografía turística AMBA", "Destinos y Patrimonio Turístico de AMBA",
-          "Planificación Turística", "Metodología de la Investigación", "Turismo Sustentable"
-        ]
-      },
-       "Tercer Año": {
-        "5° Cuatrimestre": [
-          "Geografía turística CABA", "Destinos y Patrimonio Turístico de CABA", "Organización y gestión de Empresas de Viajes y Turismo",
-          "Gestión pública del Turismo", "Taller de Investigación e Innovación turística", "Inglés 4", "Portugués 4"
-        ],
-        "6° Cuatrimestre": [
-          "Estadística Turística", "Obligaciones y contratos turísticos", "Informática Google Eart Pro – Sistema Gis – Sistema Integrados Guiemaps",
-          "Organización y gestión de destinos turísticos", "Comunicación e innovación tecnológica", "Trabajo Social Comunitario 3"
-        ]
-      },
-       "Cuarto Año": {
-        "7° Cuatrimestre": [
-          "Gestión de la Calidad en Turismo", "Marketing turístico", "Elaboración y evaluación de proyectos turísticos ambientales"
-        ],
-        "8° Cuatrimestre": [
-          "Circuitos e Impacto Ambiental", "Diseño de productos potenciales e innovadores", "Trabajo Social Comunitario 4", "Proyecto Final o Tesina"
-        ]
-      },
-       "Optativa": {
-         "Turismo Social", "Turismo Rural", "Turismo Accesible", "Turismo Alternativo", "Turismo Educativo", "Turismo Cultural", 
-         "Congresos y Cruceros", "Corporativo e Incentivos", "Taller Técnicas de Interpretación del Patrimonio"
-      }
-    };
-    for (const año in estructura) {
-  const esTecnicatura = ["Primer Año", "Segundo Año", "Tercer Año"].includes(año);
-  for (const cuatri in estructura[año]) {
-    estructura[año][cuatri].forEach(m => {
-      if (esTecnicatura) materiasTecnicatura.add(m);
-      materiasLicenciatura.add(m);
-    });
+  // Estructura de materias por año y cuatrimestre
+  const materias = {
+    "Primer Año": {
+      "1° Cuatrimestre": [
+        "Introducción al Turismo", "Geografía turística Mundial", "Destinos y Patrimonio Turístico Mundial",
+        "Inglés 1", "Portugués 1", "Regulación Jurídica de la Actividad Turística", "Informática 1"
+      ],
+      "2° Cuatrimestre": [
+        "Introducción al Turismo 2", "Programación de Circuitos", "Geografía Turística Mercosur", 
+        "Destinos y Patrimonio Turístico de Mercosur", "Inglés 2", "Portugués 2", "Trabajo Social Comunitario 1"
+      ]
+    },
+    "Segundo Año": {
+      "3° Cuatrimestre": [
+        "Geografía turística Argentina", "Destinos y Patrimonio Turístico de Argentina", "Organización y gestión de Empresas de Transportes",
+        "Inglés 3", "Portugués 3", "Administración y gestión de recursos humanos", "Trabajo Social Comunitario 2"
+      ],
+      "4° Cuatrimestre": [
+        "Organización y Gestión de empresas de Alojamiento", "Geografía turística AMBA", "Destinos y Patrimonio Turístico de AMBA",
+        "Planificación Turística", "Metodología de la Investigación", "Turismo Sustentable"
+      ]
+    },
+    "Tercer Año": {
+      "5° Cuatrimestre": [
+        "Geografía turística CABA", "Destinos y Patrimonio Turístico de CABA", "Organización y gestión de Empresas de Viajes y Turismo",
+        "Gestión pública del Turismo", "Taller de Investigación e Innovación turística", "Inglés 4", "Portugués 4"
+      ],
+      "6° Cuatrimestre": [
+        "Estadística Turística", "Obligaciones y contratos turísticos", "Informática Google Eart Pro – Sistema Gis – Sistema Integrados Guiemaps",
+        "Organización y gestión de destinos turísticos", "Comunicación e innovación tecnológica", "Trabajo Social Comunitario 3"
+      ]
+    },
+    "Cuarto Año": {
+      "7° Cuatrimestre": [
+        "Gestión de la Calidad en Turismo", "Marketing turístico", "Elaboración y evaluación de proyectos turísticos ambientales"
+      ],
+      "8° Cuatrimestre": [
+        "Circuitos e Impacto Ambiental", "Diseño de productos potenciales e innovadores", "Trabajo Social Comunitario 4", "Proyecto Final o Tesina"
+      ]
+    },
+    "Optativa": [
+      "Turismo Social", "Turismo Rural", "Turismo Accesible", "Turismo Alternativo", "Turismo Educativo", "Turismo Cultural", 
+      "Congresos y Cruceros", "Corporativo e Incentivos", "Taller Técnicas de Interpretación del Patrimonio"
+    ]
+  };
+
+  // Dependencias/correlativas
+  const dependencias = {
+    "Introducción al Turismo 2": ["Introducción al Turismo"],
+    "Programación de Circuitos": ["Introducción al Turismo"],
+    "Geografía Turística Mercosur": ["Geografía turística Mundial"],
+    "Destinos y Patrimonio Turístico de Mercosur": ["Destinos y Patrimonio Turístico Mundial"],
+    "Inglés 2": ["Inglés 1"],
+    "Portugués 2": ["Portugués 1"],
+    "Geografía turística Argentina": ["Geografía Turística Mercosur"],
+    "Destinos y Patrimonio Turístico de Argentina": ["Destinos y Patrimonio Turístico de Mercosur"],
+    "Inglés 3": ["Inglés 2"],
+    "Portugués 3": ["Portugués 2"],
+    "Trabajo Social Comunitario 2": ["Trabajo Social Comunitario 1"],
+    "Geografía turística AMBA": ["Geografía turística Argentina"],
+    "Destinos y Patrimonio Turístico de AMBA": ["Destinos y Patrimonio Turístico de Argentina"],
+    "Geografía turística CABA": ["Geografía turística AMBA"],
+    "Destinos y Patrimonio Turístico de CABA": ["Destinos y Patrimonio Turístico de AMBA"],
+    "Gestión pública del Turismo": ["Planificación Turística"],
+    "Taller de Investigación e Innovación turística": ["Metodología de la Investigación"],
+    "Inglés 4": ["Inglés 3"],
+    "Portugués 4": ["Portugués 3"],
+    "Estadística Turística": ["Metodología de la Investigación"],
+    "Obligaciones y contratos turísticos": ["Regulación Jurídica de la Actividad Turística"],
+    "Informática Google Eart Pro – Sistema Gis – Sistema Integrados Guiemaps": ["Informática 1"],
+    "Organización y gestión de destinos turísticos": ["Introducción al Turismo 2", "Planificación Turística"], 
+    "Trabajo Social Comunitario 3": ["Trabajo Social Comunitario 2"], 
+    "Gestión de la Calidad en Turismo": ["Organización y gestión de Empresas de Transportes", "Administración y gestión de recursos humanos", "Organización y Gestión de empresas de Alojamiento"],
+    "Marketing turístico": ["Organización y gestión de Empresas de Transportes", "Organización y Gestión de empresas de Alojamiento", "Gestión pública del Turismo"], 
+    "Elaboración y evaluación de proyectos turísticos ambientales": ["Introducción al Turismo 2", "Taller de Investigación e Innovación turística", "Comunicación e innovación tecnológica"], 
+    "Circuitos e Impacto Ambiental": ["Elaboración y evaluación de proyectos turísticos ambientales"], 
+    "Diseño de productos potenciales e innovadores": ["Planificación Turística", "Comunicación e innovación tecnológica", "Gestión de la Calidad en Turismo"], 
+    "Trabajo Social Comunitario 4": ["Trabajo Social Comunitario 3"],
+    "Proyecto Final o Tesina": ["Metodología de la Investigación", "Inglés 4"]
+  };
+
+  // Estado de materias aprobadas (por LocalStorage)
+  const estado = JSON.parse(localStorage.getItem("estadoTurismo") || "{}");
+
+  function guardar() {
+    localStorage.setItem("estadoTurismo", JSON.stringify(estado));
   }
-}
-const dependencias = {
-  "Introducción al Turismo 2": ["Introducción al Turismo 1"],
-  "Programación de Circuitos": ["Introducción al Turismo 1"],
-  "Geografía Turística Mercosur": ["Geografía turística Mundial"],
-  "Destinos y Patrimonio Turístico de Mercosur": ["Destinos y Patrimonio Turístico Mundial"],
-  "Inglés 2": ["Inglés 1"],
-  "Portugués 2": ["Portugués 3"],
-  "Geografía turística Argentina": ["Geografía turística Mercosur"],
-  "Destinos y Patrimonio Turístico de Argentina": ["Destinos y Patrimonio Turístico de Mercosur"],
-  "Inglés 3": ["Inglés 2"],
-  "Portugués 3": ["Inglés 2"],
-  "Trabajo Social Comunitario 2": ["Trabajo Social Comunitario 1"],
-  "Geografía turística AMBA": ["Geografía turística Argentina"],
-  "Destinos y Patrimonio Turístico de AMBA": ["Destinos y Patrimonio Turístico de Argentina"],
-  "Geografía turística CABA": ["Geografía turística AMBA"],
-  "Destinos y Patrimonio Turístico de CABA": ["Destinos y Patrimonio Turístico de AMBA"],
-  "Gestión pública del Turismo": ["Planificación Turística"],
-  "Taller de Investigación e Innovación turística": ["Metodología de la Investigación"],
-  "Inglés 4": ["Inglés 3"],
-  "Portugués 4": ["Portugués 3"],
-  "Estadística Turística": ["Metodología de la Investigación"],
-  "Obligaciones y contratos turísticos": ["Regulación Jurídica de la Actividad Turística"],
-  "Informática Google Eart Pro – Sistema Gis – Sistema Integrados Guiemaps": ["Informática 1"],
-  "Organización y gestión de destinos turísticos": ["Introducción al Turismo 2", "Planificación Turística"], 
-  "Trabajo Social Comunitario 3": ["Trabajo Social Comunitario 2"], 
-  "Gestión de la Calidad en Turismo": ["Organización y gestión de Empresas de Transportes", "Administración y gestión de recursos humanos", "Organización y Gestión de empresas de Alojamiento", "Gestión pública del Turismo"],
-  "Marketing turístico": ["Organización y gestión de Empresas de Transportes", "Organización y Gestión de empresas de Alojamiento", "Gestión pública del Turismo"], 
-  "Elaboración y evaluación de proyectos turísticos ambientales": ["Introducción al Turismo 2", "Taller de Investigación e Innovación turística", "Comunicación e innovación tecnológica"], 
-  "Circuitos e Impacto Ambiental": ["Elaboración y evaluación de proyectos turísticos ambientales"], 
-  "Diseño de productos potenciales e innovadores": ["Planificación Turística", "Comunicación e innovación tecnológica", "Gestión de la Calidad en Turismo"], 
-  "Trabajo Social Comunitario 4": ["Trabajo Social Comunitario 3"],
-  "Proyecto Final o Tesina": ["Metodología de la Investigación", "Inglés 4"]
-  
-    const estado = JSON.parse(localStorage.getItem("estadoTurismo") || "{}");
+  function reiniciar() {
+    if (confirm("¿Está seguro de borrar todo el proceso marcado?")) {
+      localStorage.removeItem("estadoTurismo");
+      location.reload();
+    }
+  }
+
+  function crearMalla() {
+    const contenedor = document.getElementById("contenedor");
+    contenedor.innerHTML = "";
+    let total = 0, tecnica = 0, licencia = 0;
     for (const año in materias) {
-      for (const cuatri in materias[año]) {
-        materias[año][cuatri].forEach(([nombre, desbloquea]) => {
-          if (!correlativas[nombre]) correlativas[nombre] = [];
-          desbloquea.forEach(dest => {
-            if (!correlativas[dest]) correlativas[dest] = [];
-            correlativas[dest].push(nombre);
-          });
+      const divAño = document.createElement("div");
+      divAño.className = "año";
+      divAño.innerHTML = `<h2>${año}</h2>`;
+
+      // Optativas se manejan diferente
+      if (año === "Optativa") {
+        const divCuatri = document.createElement("div");
+        divCuatri.className = "cuatri";
+        divCuatri.innerHTML = `<h3>Optativas</h3>`;
+        materias[año].forEach(nombre => {
+          const divMateria = document.createElement("div");
+          divMateria.className = "materia";
+          divMateria.textContent = nombre;
+          if (estado[nombre]) {
+            divMateria.classList.add("aprobada");
+            total++;
+            licencia++; // Optativa suma solo a licenciatura
+          }
+          divMateria.onclick = () => {
+            estado[nombre] = !estado[nombre];
+            guardar();
+            crearMalla();
+          };
+          divCuatri.appendChild(divMateria);
         });
-      }
-    }
-    function guardar() { localStorage.setItem("estadoTurismo", JSON.stringify(estado)); }
-    function reiniciar() {
-      if (confirm("¿Está seguro de borrar todo el proceso marcado?")) {
-        localStorage.removeItem("estadoTurismo"); location.reload();
-      }
-    }
-    function crearMalla() {
-      const contenedor = document.getElementById("contenedor");
-      contenedor.innerHTML = "";
-      let total = 0, tecnica = 0, licencia = 0;
-      for (const año in materias) {
-        const divAño = document.createElement("div");
-        divAño.className = "año";
-        divAño.innerHTML = `<h2>${año}</h2>`;
-        for (const cuatri in materias[año]) {
-          const divCuatri = document.createElement("div");
-          divCuatri.className = "cuatri";
-          divCuatri.innerHTML = `<h3>${cuatri}</h3>`;
-          materias[año][cuatri].forEach(([nombre]) => {
-            const divMateria = document.createElement("div");
-            divMateria.className = "materia";
-            divMateria.textContent = nombre;
-            const requisitos = correlativas[nombre] || [];
-            const desbloqueada = requisitos.every(req => estado[req]);
-            if (!desbloqueada) divMateria.classList.add("bloqueada");
-            if (estado[nombre]) {
-              divMateria.classList.remove("bloqueada");
-              divMateria.classList.add("aprobada");
-              total++;
-              if (["Primer Año", "Segundo Año", "Tercer Año"].includes(año)) tecnica++;
-              else licencia++;
-            }
-            divMateria.onclick = () => {
-              if (divMateria.classList.contains("bloqueada")) return;
-              estado[nombre] = !estado[nombre];
-              guardar();
-              crearMalla();
-            };
-            divCuatri.appendChild(divMateria);
-          });
-          divAño.appendChild(divCuatri);
-        }
+        divAño.appendChild(divCuatri);
         contenedor.appendChild(divAño);
+        continue;
       }
-      document.getElementById("contador").textContent =
-        `Materias aprobadas: ${total} | Tecnicatura: ${tecnica} | Licenciatura: ${licencia}`;
+
+      // Por cuatrimestre
+      for (const cuatri in materias[año]) {
+        const divCuatri = document.createElement("div");
+        divCuatri.className = "cuatri";
+        divCuatri.innerHTML = `<h3>${cuatri}</h3>`;
+        materias[año][cuatri].forEach(nombre => {
+          const divMateria = document.createElement("div");
+          divMateria.className = "materia";
+          divMateria.textContent = nombre;
+
+          // Verificar correlativas
+          const requisitos = dependencias[nombre] || [];
+          const desbloqueada = requisitos.every(req => estado[req]);
+          if (!desbloqueada) divMateria.classList.add("bloqueada");
+          if (estado[nombre]) {
+            divMateria.classList.remove("bloqueada");
+            divMateria.classList.add("aprobada");
+            total++;
+            if (["Primer Año", "Segundo Año", "Tercer Año"].includes(año)) tecnica++;
+            else licencia++;
+          }
+          divMateria.onclick = () => {
+            if (divMateria.classList.contains("bloqueada")) return;
+            estado[nombre] = !estado[nombre];
+            guardar();
+            crearMalla();
+          };
+          divCuatri.appendChild(divMateria);
+        });
+        divAño.appendChild(divCuatri);
+      }
+      contenedor.appendChild(divAño);
     }
-    crearMalla();
-  </script>
+    document.getElementById("contador").textContent =
+      `Materias aprobadas: ${total} | Tecnicatura: ${tecnica} | Licenciatura: ${licencia}`;
+  }
+  crearMalla();
+</script>
 </body>
 </html>
