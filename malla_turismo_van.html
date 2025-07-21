@@ -176,8 +176,9 @@
             divMateria.classList.remove("bloqueada");
             divMateria.classList.add("aprobada");
             total++;
-            if (["Primer Año", "Segundo Año", "Tercer Año"].includes(año)) tecnica++;
-            else licencia++;
+           if (["Primer Año", "Segundo Año", "Tercer Año", "Optativas"].includes(año)) tecnica++;
+           if (["Primer Año", "Segundo Año", "Tercer Año", "Cuarto Año", "Optativas"].includes(año)) licencia++;
+
           }
           divMateria.onclick = () => {
             if (divMateria.classList.contains("bloqueada")) return;
