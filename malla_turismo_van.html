@@ -115,108 +115,65 @@ const dependencias = {
   "Proyecto Final o Tesina": ["Metodología de la Investigación", "Inglés 4"]
   
     const estado = JSON.parse(localStorage.getItem("estadoTurismo") || "{}");
-
-    function guardarEstado() {
-  localStorage.setItem("estadoTurismo", JSON.stringify(estados));
-}
-
-function crearMalla() {
-  const contenedor = document.getElementById("malla-contenedor");
-  contenedor.innerHTML = "";
-
-  for (const año in estructura) {
-    const divAño = document.createElement("div");
-    divAño.className = "año";
-    divAño.innerHTML = `<h2>${año}</h2><div class="cuatris"></div>`;
-    const cuatrisDiv = divAño.querySelector(".cuatris");
-
-    for (const cuatri in estructura[año]) {
-      const divCuatri = document.createElement("div");
-      divCuatri.className = "cuatri";
-      divCuatri.innerHTML = `<h3>${cuatri}</h3>`;
-      estructura[año][cuatri].forEach(materia => {
-        const divMateria = document.createElement("div");
-        divMateria.className = "materia";
-        divMateria.id = materia;
-        divMateria.textContent = materia;
-        if (estados[materia] === "completada") {
-  divMateria.classList.add("completada");
-} else if (estados[materia] === "pendiente") {
-  divMateria.classList.add("pendiente");
-}
+    for (const año in materias) {
+      for (const cuatri in materias[año]) {
+        materias[año][cuatri].forEach(([nombre, desbloquea]) => {
+          if (!correlativas[nombre]) correlativas[nombre] = [];
+          desbloquea.forEach(dest => {
+            if (!correlativas[dest]) correlativas[dest] = [];
+            correlativas[dest].push(nombre);
+          });
+        });
+      }
+    }
+    function guardar() { localStorage.setItem("estadoTurismo", JSON.stringify(estado)); }
+    function reiniciar() {
+      if (confirm("¿Está seguro de borrar todo el proceso marcado?")) {
+        localStorage.removeItem("estadoTurismo"); location.reload();
+      }
+    }
+    function crearMalla() {
+      const contenedor = document.getElementById("contenedor");
+      contenedor.innerHTML = "";
+      let total = 0, tecnica = 0, licencia = 0;
+      for (const año in materias) {
+        const divAño = document.createElement("div");
+        divAño.className = "año";
+        divAño.innerHTML = `<h2>${año}</h2>`;
+        for (const cuatri in materias[año]) {
+          const divCuatri = document.createElement("div");
+          divCuatri.className = "cuatri";
+          divCuatri.innerHTML = `<h3>${cuatri}</h3>`;
+          materias[año][cuatri].forEach(([nombre]) => {
+            const divMateria = document.createElement("div");
+            divMateria.className = "materia";
+            divMateria.textContent = nombre;
+            const requisitos = correlativas[nombre] || [];
+            const desbloqueada = requisitos.every(req => estado[req]);
+            if (!desbloqueada) divMateria.classList.add("bloqueada");
+            if (estado[nombre]) {
+              divMateria.classList.remove("bloqueada");
+              divMateria.classList.add("aprobada");
+              total++;
+              if (["Primer Año", "Segundo Año", "Tercer Año"].includes(año)) tecnica++;
+              else licencia++;
+            }
+            divMateria.onclick = () => {
+              if (divMateria.classList.contains("bloqueada")) return;
+              estado[nombre] = !estado[nombre];
+              guardar();
+              crearMalla();
+            };
+            divCuatri.appendChild(divMateria);
+          });
+          divAño.appendChild(divCuatri);
         }
-        divCuatri.appendChild(divMateria);
-      });
-      cuatrisDiv.appendChild(divCuatri);
+        contenedor.appendChild(divAño);
+      }
+      document.getElementById("contador").textContent =
+        `Materias aprobadas: ${total} | Tecnicatura: ${tecnica} | Licenciatura: ${licencia}`;
     }
-
-    contenedor.appendChild(divAño);
-  }
-
-  actualizarBloqueadas();
-  actualizarContadores();
-}
-
-function actualizarBloqueadas() {
-  for (const materia in dependencias) {
-    const bloqueada = !dependencias[materia].every(m => estados[m] === "completada");
-    const el = document.getElementById(materia);
-    if (el) {
-      if (bloqueada && !estados[materia]) el.classList.add("bloqueada");
-      else el.classList.remove("bloqueada");
-    }
-  }
-}
-function actualizarContadores() {
-  const total = Object.keys(estados).length;
-  const aprobadas = Object.values(estados).filter(v => v).length;
-
-  const tecniTotal = [...materiasTecnicatura].length;
-  const tecniAprobadas = [...materiasTecnicatura].filter(m => estados[m]).length;
-
-  const licTotal = [...materiasLicenciatura].length;
-  const licAprobadas = [...materiasLicenciatura].filter(m => estados[m]).length;
-
-  document.getElementById("contador-materias").innerHTML = `
-    📚 Materias Totales: <strong>${total}</strong> |
-    ✅ Aprobadas: <strong>${aprobadas}</strong><br>
-    🎓 Tecnicatura: <strong>${tecniAprobadas}/${tecniTotal}</strong> |
-    🎓 Licenciatura: <strong>${licAprobadas}/${licTotal}</strong>
-  `;
-
-  const barra = document.getElementById("barra-progreso");
-  const texto = document.getElementById("texto-progreso");
-  barra.style.width = `${porcentaje}%`;
-  texto.textContent = `${porcentaje}% completado`;
-}
-
-document.addEventListener("click", e => {
-  if (!e.target.classList.contains("materia")) return;
-  if (e.target.classList.contains("bloqueada")) return;
-
-  const id = e.target.id;
-  const estadoActual = estados[id];
-
-  if (estadoActual === "pendiente") {
-    estados[id] = "completada";
-  } else if (estadoActual === "completada") {
-    delete estados[id]; // lo resetea
-  } else {
-    estados[id] = "pendiente";
-  }
-
-  guardarEstado();
-  crearMalla();
-});
-function reiniciarMalla() {
-  if (confirm("¿Querés reiniciar toda la malla? Esto borrará tu progreso 🥺")) {
-    localStorage.removeItem("estadoMallaVan");
-    location.reload();
-  }
-}
-
-window.onload = crearMalla;
-</script>
+    crearMalla();
+  </script>
 </body>
 </html>
-
